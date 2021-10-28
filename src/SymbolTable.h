@@ -1,3 +1,6 @@
+#ifndef SYMBOLTABLE_H
+#define SYMBOLTABLE_H
+
 #include <string>
 #include <list>
 #include <iostream>
@@ -19,3 +22,5 @@ public:
 
     ~SymbolTable();
 };
+
+#endif

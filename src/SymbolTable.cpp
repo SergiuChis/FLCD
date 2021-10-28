@@ -25,9 +25,7 @@ int SymbolTable::hash(std::string Element)
 
 int SymbolTable::add(std::string Element)
 {
-    // std::cout << "Adding: " << Element << std::endl;
     int hash_value = hash(Element);
-    // std::cout << "Hash value starting: " << hash_value << std::endl;
     int hv_copy = hash_value;
     int cycle = 0;
 
@@ -35,7 +33,6 @@ int SymbolTable::add(std::string Element)
     {
         if (hash_table[hash_value] == Element)
         {
-            std::cout << "Already existing" << std::endl;
             return hash_value;
         }
         if (hash_value == hv_copy)
@@ -44,14 +41,12 @@ int SymbolTable::add(std::string Element)
         }
         if (cycle == 2)
         {
-            std::cout << "Table full" << std::endl;
             return hash_value;
         }
         hash_value = (hash_value + 1) % size;
     }
 
     hash_table[hash_value] = Element;
-    // std::cout << "Added at index: " << hash_value << std::endl;
     return hash_value;
 }
 
