@@ -1,0 +1,13 @@
+States
+p q r
+Alphabet
+a b
+InitialState
+p
+FinalStates
+r
+Transitions
+(p, a) = q
+(q, a) = q
+(q, b) = r
+(p, b) = r
