@@ -1,7 +1,11 @@
 build:
-	g++ -c main.cpp -o main.o
+	g++ -c main.cpp -o Build/main.o
+	g++ -c MenuFA.cpp -o Build/MenuFA.o
+	g++ -c FA.cpp -o Build/FA.o
+	g++ -c Transition.cpp -o Build/Transition.o
 
-	g++ main.o -o lab4
+	g++ Build/main.o Build/MenuFA.o Build/FA.o Build/Transition.o -o lab4
 
 clean:
-	rm *.o lab4
+	rm lab4
+	rm Build/*

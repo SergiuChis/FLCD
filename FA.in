@@ -1,13 +1,13 @@
 States
 p q r
 Alphabet
-a b
+1 2
 InitialState
 p
 FinalStates
-r
+r q
 Transitions
-(p, a) = q
-(q, a) = q
-(q, b) = r
-(p, b) = r
+(p, 1) = q
+(q, 1) = q
+(q, 2) = r
+(p, 2) = r
