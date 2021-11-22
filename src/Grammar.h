@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <set>
 
 #include "ProductionRule.h"
 
@@ -15,10 +16,15 @@ public:
     std::list<ProductionRule> productionRules;
     std::string startSymbol;
 
-    Grammar(std::list<std::string> NonTerminals, std::list<std::string> Terminals, std::list<ProductionRule> ProductionRules, std::string StartSymbol);
+    Grammar(std::string FilePath);
 
+private:
     void readFromFile(std::string FilePath);
+    void eliminateDuplicates(std::list<std::string>& List);
+
+public:
     std::list<ProductionRule> getProductionRulesFor(std::string NonTerminal);
+    bool checkCFG();
 
     std::string nonTerminalsToString();
     std::string terminalsToString();

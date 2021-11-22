@@ -5,10 +5,10 @@
 class ProductionRule
 {
 public:
-    std::string leftSideNonTerminal;
-    std::list<std::string> rightSideResult;
+    std::list<std::string> leftSide;
+    std::list<std::string> rightSide;
 
-    ProductionRule(std::string LeftSideNonTerminal, std::list<std::string> RightSideResult);
+    ProductionRule(std::list<std::string> LeftSide, std::list<std::string> RightSide);
 
     std::string toString();
 };

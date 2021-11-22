@@ -1,21 +1,27 @@
 #include "ProductionRule.h"
 
-ProductionRule::ProductionRule(std::string LeftSideNonTerminal, std::list<std::string> RightSideResult)
+ProductionRule::ProductionRule(std::list<std::string> LeftSide, std::list<std::string> RightSide)
 {
-    leftSideNonTerminal = LeftSideNonTerminal;
-    rightSideResult = RightSideResult;
+    leftSide = LeftSide;
+    rightSide = RightSide;
 }
 
 std::string ProductionRule::toString()
 {
-    std::string Result = leftSideNonTerminal;
-    Result += " -> ";
-    for (auto& res : rightSideResult)
+    std::string Result;
+    for (auto& element: leftSide)
     {
-        Result += res + "|";
+        Result += element + " ";
+    }
+    Result += "-> ";
+    for (auto& res : rightSide)
+    {
+        Result += res + " | ";
     }
     if (Result != "")
     {
+        Result.pop_back();
+        Result.pop_back();
         Result.pop_back();
     }
     return Result;
