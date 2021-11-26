@@ -1,3 +1,4 @@
+program
 operators ::= "+" | "-" | "*" | "/" | "%" | "<" | ">" | "<=" | "=" | ">="
 separators ::= "[" | "]" | "{" | "}" | ":" | ";" | ","
 reserved_words ::= "if" | "integer" |  "ret" | "else" | "while" | "string" | "foreach" | "in" | "or" | "read" | "write"
@@ -27,8 +28,12 @@ expression ::= id_or_noconst | id_or_noconst operators expression
 id_or_noconst ::= identifier | noconst
 factor ::= "(" expression ")" | identifier
 iostmt ::= "read()" | "write" "(" identifier ")"
-structstmt ::= cmpdstmt | ifstmt | whilestmt
+"(" structstmt ::= cmpdstmt | ifstmt | whilestmt
 ifstmt ::= "if" "(" condition ")" cmpdstmt "else" "{" cmpdstmt "}" | "if" "(" condition ")" cmpdstmt
 whilestmt ::= "while" "(" condition ")" cmpdstmt
 condition ::= expression RELATION expression
 RELATION ::= "<" | "<=" | "==" | ">" | ">="
+test ::= test1 test2 test3
+test1 ::= "asdf" | eps
+test2 ::= "qwer" | eps
+test3 ::= "zxcv" | eps

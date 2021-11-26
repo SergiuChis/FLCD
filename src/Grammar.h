@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <set>
+#include <algorithm>
 
 #include "ProductionRule.h"
 
@@ -21,9 +22,13 @@ public:
 private:
     void readFromFile(std::string FilePath);
     void eliminateDuplicates(std::list<std::string>& List);
+    public:
+    std::list<std::string> firstRecursive(std::string NonTerminal);
+
 
 public:
     std::list<ProductionRule> getProductionRulesFor(std::string NonTerminal);
+    std::list<std::string> first(std::string NonTerminal);
     bool checkCFG();
 
     std::string nonTerminalsToString();

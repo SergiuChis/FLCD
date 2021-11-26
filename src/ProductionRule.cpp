@@ -1,6 +1,6 @@
 #include "ProductionRule.h"
 
-ProductionRule::ProductionRule(std::list<std::string> LeftSide, std::list<std::string> RightSide)
+ProductionRule::ProductionRule(std::list<std::string> LeftSide, std::list<std::list<std::string>> RightSide)
 {
     leftSide = LeftSide;
     rightSide = RightSide;
@@ -16,11 +16,14 @@ std::string ProductionRule::toString()
     Result += "-> ";
     for (auto& res : rightSide)
     {
-        Result += res + " | ";
+        for (auto& el : res)
+        {
+            Result += el + " ";
+        }
+        Result += "| ";
     }
     if (Result != "")
     {
-        Result.pop_back();
         Result.pop_back();
         Result.pop_back();
     }

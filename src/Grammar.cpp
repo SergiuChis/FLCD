@@ -11,15 +11,18 @@ void Grammar::readFromFile(std::string FilePath)
     Input.open(FilePath);
 
     std::string Line;
+    getline(Input, Line);
+    startSymbol = Line;
+
     while (getline(Input, Line))
     {
         std::stringstream ss;
         ss << Line;
 
         std::list<std::string> LeftSide;
-        std::list<std::string> RightSide;
+        std::list<std::string> OneElementRightSide;
+        std::list<std::list<std::string>> RightSide;
         std::string Word;
-        std::string CurrentResult;
         ss >> Word;
         while (Word != "::=")
         {
@@ -40,21 +43,24 @@ void Grammar::readFromFile(std::string FilePath)
             {
                 terminals.push_back(Word);
                 // RightSideResult.push_back(Word);
-                CurrentResult += Word + " ";
+                // CurrentResult += Word + " ";
+                OneElementRightSide.push_back(Word);
             }
             else if (Word != "|")
             {
                 nonTerminals.push_back(Word);
                 // RightSideResult.push_back(Word);
-                CurrentResult += Word + " ";
+                // CurrentResult += Word + " ";
+                OneElementRightSide.push_back(Word);
             }
             else
             {
-                RightSide.push_back(CurrentResult);
-                CurrentResult = "";
+                RightSide.push_back(OneElementRightSide);
+                // CurrentResult = "";
+                OneElementRightSide.clear();
             }
         }
-        RightSide.push_back(CurrentResult);
+        RightSide.push_back(OneElementRightSide);
 
         productionRules.push_back(ProductionRule{LeftSide, RightSide});
 
@@ -96,6 +102,57 @@ bool Grammar::checkCFG()
         }
     }
     return true;
+}
+
+std::list<std::string> Grammar::firstRecursive(std::string NonTerminal)
+{
+    std::list<ProductionRule> ProdRulesForGivenNonTerminal = getProductionRulesFor(NonTerminal);
+    std::list<std::string> Result;
+    std::list<std::string> TempFirstStore;
+
+    for (auto Pr : ProdRulesForGivenNonTerminal)
+    {
+        for (auto El : Pr.rightSide)
+        {
+            for (auto FirstElement : El)
+            {
+                if ((FirstElement[0] == '\"' && FirstElement[FirstElement.size() - 1] == '\"') || FirstElement == "eps")
+                {
+                    Result.push_back(FirstElement);
+                    break;
+                }
+                else
+                {
+                    TempFirstStore = first(FirstElement);
+                    auto Found = std::find(TempFirstStore.begin(), TempFirstStore.end(), "eps");
+                    if (Found != TempFirstStore.end())
+                    {
+                        TempFirstStore.erase(Found);
+                        Result.splice(Result.end(), TempFirstStore);
+                    }
+                    else
+                    {
+                        Result.splice(Result.end(), TempFirstStore);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    eliminateDuplicates(Result);
+    return Result;
+}
+
+std::list<std::string> Grammar::first(std::string NonTerminal)
+{
+    std::list<std::string> Result = firstRecursive(NonTerminal);
+    auto Found = std::find(Result.begin(), Result.end(), "eps");
+    if (Found != Result.end())
+    {
+        Result.erase(Found);
+    }
+    return Result;
 }
 
 std::string Grammar::nonTerminalsToString()
