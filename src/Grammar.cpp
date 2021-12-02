@@ -1,5 +1,17 @@
 #include "Grammar.h"
 
+bool sergiu_find(std::list<std::string> qwer, std::string f)
+{
+    for (auto a : qwer)
+    {
+        if (a == f)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 Grammar::Grammar(std::string FilePath)
 {
     readFromFile(FilePath);
@@ -123,11 +135,11 @@ std::list<std::string> Grammar::firstRecursive(std::string NonTerminal)
                 }
                 else
                 {
-                    TempFirstStore = first(FirstElement);
-                    auto Found = std::find(TempFirstStore.begin(), TempFirstStore.end(), "eps");
-                    if (Found != TempFirstStore.end())
+                    TempFirstStore = firstRecursive(FirstElement);
+                    // auto Found = std::find(TempFirstStore.begin(), TempFirstStore.end(), "eps");
+                    if (sergiu_find(TempFirstStore, "eps"))
                     {
-                        TempFirstStore.erase(Found);
+                        // TempFirstStore.erase(Found);
                         Result.splice(Result.end(), TempFirstStore);
                     }
                     else
@@ -144,11 +156,83 @@ std::list<std::string> Grammar::firstRecursive(std::string NonTerminal)
     return Result;
 }
 
+std::list<ProductionRule> Grammar::getProductionRulesRightSide(std::string NonTerminal)
+{
+    std::list<ProductionRule> Result;
+    for (auto Pr : productionRules)
+    {
+        for (auto Element : Pr.rightSide)
+        {
+            for (auto Symbol : Element)
+            {
+                if (Symbol == NonTerminal)
+                {
+                    Result.push_back(Pr);
+                }
+            }
+        }
+    }
+    return Result;
+}
+
+std::list<std::string> Grammar::follow(std::string NonTerminal)
+{
+
+    std::list<ProductionRule> ProductionRulesForNonTerminal = getProductionRulesRightSide(NonTerminal);
+    std::list<std::string> Result;
+
+    for (auto Pr : ProductionRulesForNonTerminal)
+    {
+        for (auto El : Pr.rightSide)
+        {
+            bool broke = false;
+            for (int i = 0; i < El.size() - 1; ++i)
+            {
+                std::string Current = *std::next(El.begin(), i);
+                if (Current == NonTerminal)
+                {
+                    
+                    for (int j = i + 1; j < El.size(); ++j)
+                    {
+                        std::string Next = *std::next(El.begin(), j);
+                        std::cout << Current << " " << Next << std::endl;
+                        if ((Next[0] == '\"' && Next[Next.size() - 1] == '\"') || Next == "eps")
+                        {
+                            // std::cout << "break\n";
+                            Result.push_back(Next);
+                            broke = true;
+                            break;
+                        }
+                        std::list<std::string> Aux = firstRecursive(Next);
+                        std::list<std::string> AuxCopy = Aux;
+                        Result.splice(Result.end(), Aux);
+
+                        if (!sergiu_find(AuxCopy, "eps"))
+                        {
+                            broke = true;
+                            std::cout << "NU DA EPS\n";
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!broke)
+            {
+                // std::cout << *Pr.leftSide.begin() << std::endl;
+                Result.splice(Result.end(), follow(*Pr.leftSide.begin()));
+            }
+        }
+    }
+
+    eliminateDuplicates(Result);
+    return Result;
+}
+
 std::list<std::string> Grammar::first(std::string NonTerminal)
 {
     std::list<std::string> Result = firstRecursive(NonTerminal);
     auto Found = std::find(Result.begin(), Result.end(), "eps");
-    if (Found != Result.end())
+    if (sergiu_find(Result, "eps"))
     {
         Result.erase(Found);
     }

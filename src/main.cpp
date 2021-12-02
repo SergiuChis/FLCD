@@ -15,9 +15,10 @@ int main(int argc, char** argv)
     std::cout << g.productionRulesToString() << std::endl;
     std::cout << "\nCheck if CFG: " << (g.checkCFG() ? "true" : "false") << std::endl;
 
-    std::list<std::string> First = g.firstRecursive("test");
+    std::list<std::string> First = g.firstRecursive("stmtlist");
+    std::list<std::string> Follow = g.follow("assignstmt");
 
-    for (auto asdf : First)
+    for (auto asdf : Follow)
     {
         std::cout << asdf << " ";
     }

@@ -24,6 +24,9 @@ private:
     void eliminateDuplicates(std::list<std::string>& List);
     public:
     std::list<std::string> firstRecursive(std::string NonTerminal);
+    std::list<ProductionRule> getProductionRulesRightSide(std::string NonTerminal);
+    public:
+    std::list<std::string> follow(std::string NonTerminal);
 
 
 public:
