@@ -140,6 +140,7 @@ std::list<std::string> Grammar::firstRecursive(std::string NonTerminal)
                     if (sergiu_find(TempFirstStore, "eps"))
                     {
                         // TempFirstStore.erase(Found);
+                        
                         Result.splice(Result.end(), TempFirstStore);
                     }
                     else
@@ -231,11 +232,11 @@ std::list<std::string> Grammar::follow(std::string NonTerminal)
 std::list<std::string> Grammar::first(std::string NonTerminal)
 {
     std::list<std::string> Result = firstRecursive(NonTerminal);
-    auto Found = std::find(Result.begin(), Result.end(), "eps");
-    if (sergiu_find(Result, "eps"))
-    {
-        Result.erase(Found);
-    }
+    // auto Found = std::find(Result.begin(), Result.end(), "eps");
+    // if (sergiu_find(Result, "eps"))
+    // {
+    //     Result.erase(Found);
+    // }
     return Result;
 }
 

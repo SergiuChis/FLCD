@@ -15,14 +15,27 @@ int main(int argc, char** argv)
     std::cout << g.productionRulesToString() << std::endl;
     std::cout << "\nCheck if CFG: " << (g.checkCFG() ? "true" : "false") << std::endl;
 
-    std::list<std::string> First = g.firstRecursive("stmtlist");
-    std::list<std::string> Follow = g.follow("assignstmt");
-
+    std::list<std::string> First = g.first("S");
+    std::list<std::string> Follow = g.follow("program");
     for (auto asdf : Follow)
     {
         std::cout << asdf << " ";
     }
     std::cout << std::endl;
+
+    // for (auto nt : g.nonTerminals)
+    // {
+    //     std::cout << "NT: " << nt << std::endl;
+    //     // std::list<std::string> First = g.first(nt);
+    //     std::list<std::string> Follow = g.follow(nt);
+    //     for (auto asdf : Follow)
+    //     {
+    //         std::cout << asdf << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
+
+    
 
     return 0;
 }
