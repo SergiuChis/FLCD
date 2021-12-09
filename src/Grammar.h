@@ -1,3 +1,5 @@
+#pragma once
+
 #include <list>
 #include <string>
 #include <fstream>
@@ -20,6 +22,10 @@ public:
     Grammar(std::string FilePath);
 
 private:
+
+    void pushProductionRule(ProductionRule Pr);
+    void popProductionRule(ProductionRule Pr);
+
     void readFromFile(std::string FilePath);
     void eliminateDuplicates(std::list<std::string>& List);
     public:
@@ -37,4 +43,6 @@ public:
     std::string nonTerminalsToString();
     std::string terminalsToString();
     std::string productionRulesToString();
+
+    ProductionRule getProductionRuleFor(std::string NonTerminal, std::string Terminal);
 };

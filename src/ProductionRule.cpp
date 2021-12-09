@@ -6,6 +6,15 @@ ProductionRule::ProductionRule(std::list<std::string> LeftSide, std::list<std::l
     rightSide = RightSide;
 }
 
+ProductionRule::ProductionRule()
+{
+}
+
+bool ProductionRule::isEmpty()
+{
+    return rightSide.size() == 0;
+}
+
 std::string ProductionRule::toString()
 {
     std::string Result;

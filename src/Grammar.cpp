@@ -17,6 +17,16 @@ Grammar::Grammar(std::string FilePath)
     readFromFile(FilePath);
 }
 
+void Grammar::pushProductionRule(ProductionRule Pr)
+{
+    productionRules.push_back(Pr);
+}
+
+void Grammar::popProductionRule(ProductionRule Pr)
+{
+    productionRules.erase(std::find(productionRules.begin(), productionRules.end(), Pr));
+}
+
 void Grammar::readFromFile(std::string FilePath)
 {
     std::fstream Input;
@@ -289,6 +299,30 @@ std::string Grammar::productionRulesToString()
         Result.pop_back();
     }
     return Result;
+}
+
+ProductionRule Grammar::getProductionRuleFor(std::string NonTerminal, std::string Terminal)
+{
+    std::list<ProductionRule> ProdRulesForGivenNonTerminal = getProductionRulesFor(NonTerminal);
+
+    for (auto Pr : ProdRulesForGivenNonTerminal) {
+        popProductionRule(Pr);
+        for (auto El : Pr.rightSide) {
+            std::list<std::list<std::string>> rightSide;
+            rightSide.push_back(El);
+            ProductionRule newPr = ProductionRule(Pr.leftSide, rightSide);
+            pushProductionRule(newPr);
+            std::list<std::string> terminals = first(NonTerminal);
+            popProductionRule(newPr);
+            if (sergiu_find(terminals, Terminal)) {
+                pushProductionRule(Pr);
+                return newPr;
+            }
+        }
+        pushProductionRule(Pr);
+    }
+
+    return ProductionRule();
 }
 
 void Grammar::eliminateDuplicates(std::list<std::string>& List)
