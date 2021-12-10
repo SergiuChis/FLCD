@@ -301,6 +301,16 @@ std::string Grammar::productionRulesToString()
     return Result;
 }
 
+std::map<std::string, std::list<std::string>> Grammar::getFirstForAllNonTerminals()
+{
+    std::map<std::string, std::list<std::string>> Result;
+    for (auto nonTerminal : nonTerminals)
+    {
+        Result[nonTerminal] = first(nonTerminal);
+    }
+    return Result;
+}
+
 ProductionRule Grammar::getProductionRuleFor(std::string NonTerminal, std::string Terminal)
 {
     std::list<ProductionRule> ProdRulesForGivenNonTerminal = getProductionRulesFor(NonTerminal);

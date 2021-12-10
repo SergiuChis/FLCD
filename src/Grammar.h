@@ -7,6 +7,7 @@
 #include <sstream>
 #include <set>
 #include <algorithm>
+#include <map>
 
 #include "ProductionRule.h"
 
@@ -18,6 +19,7 @@ public:
     std::list<std::string> terminals;
     std::list<ProductionRule> productionRules;
     std::string startSymbol;
+    std::map<std::string, std::list<std::string>> firstForAllNonTerminals;
 
     Grammar(std::string FilePath);
 
@@ -28,10 +30,11 @@ private:
 
     void readFromFile(std::string FilePath);
     void eliminateDuplicates(std::list<std::string>& List);
-    public:
+public:
     std::list<std::string> firstRecursive(std::string NonTerminal);
     std::list<ProductionRule> getProductionRulesRightSide(std::string NonTerminal);
-    public:
+    std::map<std::string, std::list<std::string>> getFirstForAllNonTerminals();
+public:
     std::list<std::string> follow(std::string NonTerminal);
 
 

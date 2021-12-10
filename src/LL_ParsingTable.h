@@ -7,6 +7,7 @@
 #include <map>
 #include <utility>
 
+
 class LL_ParsingTable
 {
 public:
@@ -20,6 +21,5 @@ public:
     std::string toString();
 
 private:
-
     void buildTable(Grammar Gr);
 };

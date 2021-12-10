@@ -27,7 +27,15 @@ int main(int argc, char** argv)
 
     std::cout << "Result:\n";
 
-    //std::cout << g.getProductionRuleFor("test", "\"qwer\"").toString();
+    LL_ParsingTable table = LL_ParsingTable(g);
+    std::cout << table.toString();
+
+
+
+    return 0;
+}
+
+//std::cout << g.getProductionRuleFor("test", "\"qwer\"").toString();
 
     /*for (auto it : g.nonTerminals) {
         for (auto terminal : g.terminals) {
@@ -38,11 +46,3 @@ int main(int argc, char** argv)
         }
         std::cout << '\n';
     }*/
-
-    LL_ParsingTable table = LL_ParsingTable(g);
-    std::cout << table.toString();
-
-
-
-    return 0;
-}

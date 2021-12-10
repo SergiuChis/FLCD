@@ -20,11 +20,11 @@ std::string LL_ParsingTable::toString()
 
 void LL_ParsingTable::buildTable(Grammar Gr)
 {
-    for (auto it : Gr.nonTerminals) {
+    for (auto nonTerminal : Gr.nonTerminals) {
         for (auto terminal : Gr.terminals) {
-            if (it != "eps") {
-                auto result = Gr.getProductionRuleFor(it, terminal);
-                table[std::make_pair(it, terminal)] = result;
+            if (nonTerminal != "eps") {
+                auto result = Gr.getProductionRuleFor(nonTerminal, terminal);
+                table[std::make_pair(nonTerminal, terminal)] = result;
             }
         }
     }
